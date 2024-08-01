@@ -455,7 +455,10 @@ begin
         else
           AProperty.SetValue(AInstance, TValue.From<string>(AValue));
       tkInteger, tkSet, tkInt64:
-        AProperty.SetValue(AInstance, TValue.From<Integer>(AValue));
+        if TVarData(AValue).VType <= varNull then
+          AProperty.SetValue(AInstance, TValue.From<Integer>(0))
+        else
+          AProperty.SetValue(AInstance, TValue.From<Integer>(AValue));
       tkFloat:
         if TVarData(AValue).VType <= varNull then
           AProperty.SetValue(AInstance, TValue.From<double>(0.0))
@@ -479,7 +482,12 @@ begin
       tkEnumeration:
         begin
           if IsBoolean() then
-            AProperty.SetValue(AInstance, TValue.From<Boolean>(AValue))
+          begin
+            if TVarData(AValue).VType <= varNull then
+              AProperty.SetValue(AInstance, TValue.From<Boolean>(False))
+            else
+              AProperty.SetValue(AInstance, TValue.From<Boolean>(AValue));
+          end
           else
             AProperty.SetValue(AInstance, TValue.FromVariant(AValue));
         end;
