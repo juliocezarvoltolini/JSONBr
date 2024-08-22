@@ -3,7 +3,7 @@ unit UnitTests;
 interface
 
 uses
-  DUnitX.TestFramework;
+  DUnitX.TestFramework, jsonbr;
 
 type
   [TestFixture]
@@ -26,9 +26,6 @@ type
   end;
 
 implementation
-
-uses
-  jsonbr;
 
 procedure TTestJSONBr.Setup;
 begin

@@ -54,16 +54,18 @@ var
 begin
   if not AUseISO8601DateFormat then
   begin
-    Result := StrToDateTimeDef(AValue, 0);
+    Result := StrToDateTimeDef(AValue, 0, JsonBrFormatSettings);
     exit;
   end;
   LYYYY := 0; LMM := 0; LDD := 0; LHH := 0; LMI := 0; LSS := 0; LMS := 0;
+
+  TryStrToInt(Copy(AValue, 12, 2), LHH);
+  TryStrToInt(Copy(AValue, 15, 2), LMI);
+  TryStrToInt(Copy(AValue, 18, 2), LSS);
+
   if TryStrToInt(Copy(AValue, 1, 4), LYYYY) and
      TryStrToInt(Copy(AValue, 6, 2), LMM) and
-     TryStrToInt(Copy(AValue, 9, 2), LDD) and
-     TryStrToInt(Copy(AValue, 12, 2), LHH) and
-     TryStrToInt(Copy(AValue, 15, 2), LMI) and
-     TryStrToInt(Copy(AValue, 18, 2), LSS) then
+     TryStrToInt(Copy(AValue, 9, 2), LDD) then
   begin
     Result := EncodeDateTime(LYYYY, LMM, LDD, LHH, LMI, LSS, LMS);
   end
